@@ -1,5 +1,8 @@
 package com.ganesh.main.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,15 +17,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ganesh.main.entity.Employee;
+import com.ganesh.main.service.EmployeeService;
 
 @RestController           // Combination of @Controller and @ResponseBody annotation 
 
 public class EmployeeController {
 	
+	@Autowired
+	private EmployeeService employeeService;
 @GetMapping("/employees")
-	public String getEmployees() {
+	public List<Employee> getEmployees() {
 	
-		return "displaying list of Employess";
+		return employeeService.getEmployees();
 	}
 @GetMapping("/employees/{id}")     // PathVariable : We passed the pathvariable as id of employee 
 public String getEmployee(@PathVariable Long id) {

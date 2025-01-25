@@ -6,6 +6,7 @@ import com.ganesh.main.entity.Employee;
 
 public interface EmployeeService {
 
+	
 	List<Employee> getEmployees();
 	
 }
