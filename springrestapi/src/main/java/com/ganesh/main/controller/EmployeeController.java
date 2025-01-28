@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,41 +22,48 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ganesh.main.entity.Employee;
 import com.ganesh.main.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController           // Combination of @Controller and @ResponseBody annotation 
 
 public class EmployeeController {
-	
+	 
 	@Autowired
 	private EmployeeService employeeService;
-@GetMapping("/employees")
-	public List<Employee> getEmployees() {
+@GetMapping("/employees/{name}/{age}")
+public ResponseEntity<List<Employee>> getEmployeesByNameAndAge(@PathVariable String name,@PathVariable Long age ){
 	
-		return employeeService.getEmployees();
-	}
-@GetMapping("/employees/{id}")     // PathVariable : We passed the pathvariable as id of employee 
-public String getEmployee(@PathVariable Long id) {
+	return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByNameAndAge(name, age),HttpStatus.OK);
 	
-	return "Feching the employee details for the id " +id;
 	
-}
-@DeleteMapping("/employees")
-public String deleteEmployee(@RequestParam Long id) {
-	
-	return "Deleting the employee detail for the id " +id;
-	
-}
-@PostMapping("/employees")
-public String saveEmployee(@RequestBody Employee employee ) {
-	
-	return "Saving the employee details to database"+employee; 
 }
 
-@PutMapping("/employees/{id}")
-public Employee updatedEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+@GetMapping("/employees/{id}")
+public ResponseEntity<Employee> getEmployeesByNameAndAge(@PathVariable Long id){
 	
-	System.out.println("Updating the employee detail for a id : "+id );
+	return new ResponseEntity<Employee>(employeeService.findById(id),HttpStatus.OK);
+
+}
+
+@GetMapping("/employees/findbyage")
+public ResponseEntity<List<Employee>> getEmployeesByAge(@RequestParam Long age){
 	
-	return employee;
+	return new ResponseEntity<List<Employee>> (employeeService.findByAge(age),HttpStatus.OK);
+
+}
+
+
+@GetMapping("/employees/{name}/{location}")
+public ResponseEntity<List<Employee>> getEmployeesByKeyword(@PathVariable String  name, @PathVariable String location){
+	
+	return new ResponseEntity<List<Employee>> (employeeService.getEmployeesByNameOrLocation(name, location),HttpStatus.OK);
+
+}
+
+@DeleteMapping("/employees/{name}")
+public ResponseEntity<String> deleteByName(@PathVariable String  name){
+	
+	return new ResponseEntity<String> (employeeService.deleteEmployeeByName(name)+"No. of records deleted",HttpStatus.OK);
 
 }
 }

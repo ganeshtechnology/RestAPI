@@ -6,7 +6,10 @@ import com.ganesh.main.entity.Employee;
 
 public interface EmployeeService {
 
+	List<Employee> getEmployeesByNameAndAge(String name,Long age);
 	
-	List<Employee> getEmployees();
-	
+	Employee findById(Long id);
+	List<Employee > findByAge(Long age);
+	List<Employee> getEmployeesByNameOrLocation(String name,String location);
+	Integer  deleteEmployeeByName(String name);
 }

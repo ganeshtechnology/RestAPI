@@ -1,36 +1,57 @@
 package com.ganesh.main.service;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ganesh.main.entity.Employee;
+import com.ganesh.main.repository.EmployeeRepository;
 
 @Service 
 public class EmployeeServiceImpl implements EmployeeService {
 
-	private static List<Employee> list = new ArrayList<>();
-	static {
-		Employee e = new Employee();
-		e.setAge(1L);
-		e.setDepartment("IT");
-		e.setEmail("ganesh@gmail.com");
-		e.setLocation("Pune");
-		e.setName("Ganesh");
-		Employee e2= new Employee();
-		e2.setAge(2L);
-		e2.setDepartment("IT");
-		e2.setEmail("prakash@gmail.com");
-		e2.setLocation("Pune");
-		e2.setName("Prakash");
-		list.add(e2);
-		list.add(e);
-	}
+	@Autowired
+	private EmployeeRepository employeeRepository;
+
 	@Override
-	public List<Employee> getEmployees() {
-		
-		return list;
+	public List<Employee> getEmployeesByNameAndAge(String name, Long age) {
+		return employeeRepository.findByNameAndAge(name, age);
 	}
 
-}
+	@Override
+	public Employee findById(Long id) {
+		return employeeRepository.findById(id).orElseThrow(()-> new IllegalArgumentException());
+	}
+
+	@Override
+	public List<Employee> findByAge(Long age) {
+		return employeeRepository.findByAge(age);
+	}
+
+	
+
+	@Override
+	public List<Employee> getEmployeesByNameOrLocation(String name, String location) {
+		return employeeRepository.getEmployeesByNameAndLocation(name, location);
+	}
+
+	@Override
+	public Integer  deleteEmployeeByName(String name) {
+		return employeeRepository.deleteEmployeeByName(name);
+	}
+
+	
+	
+	
+	
+	
+	}
+	
+
+
