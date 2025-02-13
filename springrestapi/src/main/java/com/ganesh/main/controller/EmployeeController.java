@@ -37,7 +37,11 @@ public ResponseEntity<List<Employee>> getEmployeesByNameAndAge(@PathVariable Str
 	
 	
 }
-
+@PostMapping
+public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee ){
+	return new  ResponseEntity<Employee>(employeeService.saveEmployee(employee),HttpStatus.OK);
+	
+}
 @GetMapping("/employees/{id}")
 public ResponseEntity<Employee> getEmployeesByNameAndAge(@PathVariable Long id){
 	

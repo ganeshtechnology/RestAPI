@@ -12,4 +12,6 @@ public interface EmployeeService {
 	List<Employee > findByAge(Long age);
 	List<Employee> getEmployeesByNameOrLocation(String name,String location);
 	Integer  deleteEmployeeByName(String name);
+
+	Employee saveEmployee(Employee employee);
 }
